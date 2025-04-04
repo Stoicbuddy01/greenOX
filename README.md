@@ -1,4 +1,4 @@
-# ♻️ CleanIndia — Gamified Eco Rewards Platform
+# ♻️ GreenOX — Gamified Eco Rewards Platform
 
 A full-stack web app that makes environmental action fun and rewarding. Built for **Hacktropica 2K25**, CleanIndia lets users simulate eco-friendly actions, earn points, and redeem them for **FakeETH** and digital rewards — all within a modern, wallet-integrated, responsive UI.
 
@@ -40,8 +40,8 @@ CleanIndia is a gamified platform designed to raise awareness around environment
 ### Other Key Technologies
 - [Google Gemini AI](https://ai.google.dev/)
 - [Web3Auth](https://web3auth.io/)
-- [Drizzle ORM](https://orm.drizzle.team/) *(planned integration)*
-- [Neon Database](https://neon.tech/) *(planned integration)*
+- [Drizzle ORM](https://orm.drizzle.team/) 
+- [Neon Database](https://neon.tech/) *
 
 ---
 
@@ -55,7 +55,7 @@ Before running the project locally, ensure you have:
 
 ---
 
-## 🧑‍💻 Team CleanIndia — Hacktropica 2K25
+## 🧑‍💻 Team 3XTREMERS — Hacktropica 2K25
 
 | Name                | Role                 | LinkedIn                                                                 |
 |---------------------|----------------------|--------------------------------------------------------------------------|
