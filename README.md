@@ -2,7 +2,7 @@
 
 A full-stack web app that makes environmental action fun and rewarding. Built for **Hacktropica 2K25**, CleanIndia lets users simulate eco-friendly actions, earn points, and redeem them for **FakeETH** and digital rewards — all within a modern, wallet-integrated, responsive UI.
 
-> 🚀 Project built in 36 hours by a 4-member team at **Hacktropica 2K25**, Asansol.
+> 🚀 Project built in 24 hours by a 4-member team at **Hacktropica 2K25**, Asansol.
 
 ---
 
