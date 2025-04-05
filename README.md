@@ -1,22 +1,14 @@
-<<<<<<< HEAD
 # ♻️ GreenOX — Gamified Eco Rewards Platform
 
-A full-stack web app that makes environmental action fun and rewarding. Built for **Hacktropica 2K25**, CleanIndia lets users simulate eco-friendly actions, earn points, and redeem them for **FakeETH** and digital rewards — all within a modern, wallet-integrated, responsive UI.
-
-> 🚀 Project built in 24 hours by a 4-member team at **Hacktropica 2K25**, Asansol.
-=======
-# ♻️ CleanIndia — Gamified Eco Rewards Platform
-
-A full-stack web app that makes environmental action fun and rewarding. Built for **Hacktropica 2K25**, CleanIndia lets users simulate eco-friendly actions, earn points, and redeem them for **FakeETH** and digital rewards — all within a modern, wallet-integrated, responsive UI.
+A full-stack web app that makes environmental action fun and rewarding. Built for **Hacktropica 2K25**, GreenOX lets users simulate eco-friendly actions, earn points, and redeem them for **FakeETH** and digital rewards — all within a modern, wallet-integrated, responsive UI.
 
 > 🚀 Project built in 36 hours by a 4-member team at **Hacktropica 2K25**, Asansol.
->>>>>>> 2bfb0fc (UI improvements and Web3 crypto implimentation)
 
 ---
 
 ## 🌍 Overview
 
-CleanIndia is a gamified platform designed to raise awareness around environmental cleanliness by simulating user participation in reporting waste and rewarding them with virtual tokens and items.
+**GreenOX** is a gamified platform designed to raise awareness around environmental cleanliness by simulating user participation in reporting waste and rewarding them with virtual tokens and digital items.
 
 ---
 
@@ -48,13 +40,8 @@ CleanIndia is a gamified platform designed to raise awareness around environment
 ### Other Key Technologies
 - [Google Gemini AI](https://ai.google.dev/)
 - [Web3Auth](https://web3auth.io/)
-<<<<<<< HEAD
-- [Drizzle ORM](https://orm.drizzle.team/) 
-- [Neon Database](https://neon.tech/) *
-=======
 - [Drizzle ORM](https://orm.drizzle.team/) *(planned integration)*
 - [Neon Database](https://neon.tech/) *(planned integration)*
->>>>>>> 2bfb0fc (UI improvements and Web3 crypto implimentation)
 
 ---
 
@@ -68,18 +55,14 @@ Before running the project locally, ensure you have:
 
 ---
 
-<<<<<<< HEAD
 ## 🧑‍💻 Team 3XTREMERS — Hacktropica 2K25
-=======
-## 🧑‍💻 Team CleanIndia — Hacktropica 2K25
->>>>>>> 2bfb0fc (UI improvements and Web3 crypto implimentation)
 
-| Name                | Role                 | LinkedIn                                                                 |
-|---------------------|----------------------|--------------------------------------------------------------------------|
-| **Arya Dasgupta**   | Backend Developer    | [LinkedIn](https://www.linkedin.com/in/aryadasgupta2004/)                |
-| **Ankit Saha**      | Lead Developer       | [LinkedIn](https://www.linkedin.com/in/ankit-saha09/)                    |
-| **Ashmita Chatterjee** | UI/UX Designer   | [LinkedIn](https://www.linkedin.com/in/ashmita-chatterjee-62272628b/)   |
-| **Arunima Layek**   | Presentation & Design| [LinkedIn](https://www.linkedin.com/in/arunima-layek-619755355/)         |
+| Name                   | Role                  | LinkedIn                                                                 |
+|------------------------|-----------------------|--------------------------------------------------------------------------|
+| **Arya Dasgupta**      | Backend Developer     | [LinkedIn](https://www.linkedin.com/in/aryadasgupta2004/)                |
+| **Ankit Saha**         | Lead Developer        | [LinkedIn](https://www.linkedin.com/in/ankit-saha09/)                    |
+| **Ashmita Chatterjee** | UI/UX Designer        | [LinkedIn](https://www.linkedin.com/in/ashmita-chatterjee-62272628b/)   |
+| **Arunima Layek**      | Presentation & Design | [LinkedIn](https://www.linkedin.com/in/arunima-layek-619755355/)         |
 
 ---
 
@@ -87,7 +70,7 @@ Before running the project locally, ensure you have:
 
 The app is ready to deploy on [Vercel](https://vercel.com/) or any Node.js-compatible platform.
 
-> Coming Soon: Live demo link!
+> 🔗 **Coming Soon**: Live demo link!
 
 ---
 
@@ -109,3 +92,7 @@ This project is open-source and intended for educational/demo purposes only. No 
 ---
 
 > Made with 💚 at Hacktropica 2K25
+
+---
+
+Let me know if you'd like a badge section, screenshots/gif support, or a `Getting Started` section with setup instructions!
