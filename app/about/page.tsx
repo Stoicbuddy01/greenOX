@@ -54,12 +54,12 @@ export default function AboutPage() {
     },
     {
       name: "Ashmita Chatterjee",
-      role: "UI/UX Designer",
+      role: "Presentation & UI/UX Designer",
       linkedin: "https://www.linkedin.com/in/ashmita-chatterjee-62272628b/"
     },
     {
       name: "Arunima Layek",
-      role: "Presentation & Design",
+      role: "Presentation & UI/UX Design",
       linkedin: "https://www.linkedin.com/in/arunima-layek-619755355/"
     }
   ];
