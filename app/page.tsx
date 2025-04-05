@@ -86,14 +86,14 @@ export default function HomePage() {
             Clean Up • Earn Crypto
           </motion.span>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             <motion.span 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
               className="bg-gradient-to-r from-green-600 to-yellow-500 bg-clip-text text-transparent"
             >
-              Green Rewards
+              GreenOx-AI powered waste Management
             </motion.span>
           </h1>
 
@@ -103,7 +103,7 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto"
           >
-            Join the movement to clean the planet and earn FakeETH rewards in this demo!
+            Turn eco-actions into earnings — collect waste, earn coins, and cash out in AVAX.!
           </motion.p>
 
           <motion.div 
@@ -147,7 +147,7 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="text-4xl font-bold text-gray-900 text-center mb-16"
           >
-            Why <span className="text-green-600">Green Rewards</span>?
+            Why <span className="text-green-600">GreenOx</span>?
           </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -176,7 +176,7 @@ export default function HomePage() {
                 <Coins className="h-8 w-8 text-yellow-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Earn Rewards</h3>
-              <p className="text-gray-600">Turn your efforts into FakeETH and exclusive perks (demo mode).</p>
+              <p className="text-gray-600">Grind green, get AVAX — unlock rewards in demo mode!.</p>
             </motion.div>
 
             <motion.div 
@@ -222,7 +222,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="py-12 px-6 bg-gray-100 text-center">
         <p className="text-gray-600">
-          © 2025 Green Rewards Demo. Built with 🌍 & 💚 by 3XREMERS.
+          © 2025 Green Rewards Demo. Built with 🌍 & 💚 by 3XTREMERS.
         </p>
       </footer>
     </div>
