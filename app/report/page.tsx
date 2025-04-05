@@ -9,14 +9,17 @@ import { createReport, createUser, getRecentReports, getUserByEmail } from '@/ut
 import dynamic from 'next/dynamic'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { motion } from 'framer-motion'
 
 // Fix for default marker icons
-delete L.Icon.Default.prototype._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
-})
+if (typeof window !== 'undefined') {
+  delete (L.Icon.Default.prototype as any)._getIconUrl
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
+  })
+}
 
 // Dynamic imports with SSR disabled
 const MapContainer = dynamic(
@@ -180,10 +183,10 @@ export default function ReportPage() {
           markerRef.current.setLatLng(newCenter);
         }
         
-        setNewReport({
-          ...newReport,
+        setNewReport(prev => ({
+          ...prev,
           location: `${newCenter[0].toFixed(4)}, ${newCenter[1].toFixed(4)}`
-        });
+        }));
         toast.success('Location found!');
       } else {
         toast.error('Location not found');
@@ -196,6 +199,13 @@ export default function ReportPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!newReport.location) {
+      toast.error('Please select a location by dragging the marker on the map');
+      return;
+    }
+    
     if (verificationStatus !== 'success' || !user) {
       toast.error('Please verify the waste before submitting or log in.');
       return;
@@ -212,6 +222,10 @@ export default function ReportPage() {
         verificationResult ? JSON.stringify(verificationResult) : undefined
       ) as any;
       
+      if (!report) {
+        throw new Error('Failed to create report');
+      }
+      
       const formattedReport = {
         id: report.id,
         location: report.location,
@@ -220,7 +234,7 @@ export default function ReportPage() {
         createdAt: report.createdAt.toISOString().split('T')[0]
       };
       
-      setReports([formattedReport, ...reports]);
+      setReports(prev => [formattedReport, ...prev]);
       setNewReport({ location: '', type: '', amount: '' });
       setFile(null);
       setPreview(null);
@@ -260,22 +274,32 @@ export default function ReportPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-white to-emerald-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        <header className="mb-8 text-center">
+        <motion.header 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8 text-center"
+        >
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
             Waste Reporting Portal
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Help keep our environment clean by reporting waste in your area
           </p>
-        </header>
+        </motion.header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Report Form Card */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-              <div className="bg-green-600 p-4 text-white">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100"
+            >
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-4 text-white">
                 <h2 className="text-xl font-semibold">Report New Waste</h2>
               </div>
               
@@ -285,14 +309,18 @@ export default function ReportPage() {
                   <label className="block text-lg font-medium text-gray-700 mb-3">
                     Upload Waste Image
                   </label>
-                  <div className="mt-1 flex justify-center px-6 pt-10 pb-12 border-2 border-dashed border-gray-300 rounded-xl hover:border-green-500 transition-all duration-300 bg-gray-50/50 relative group">
+                  <div className="mt-1 flex justify-center px-6 pt-10 pb-12 border-2 border-dashed border-gray-300 rounded-xl hover:border-emerald-500 transition-all duration-300 bg-gray-50/50 relative group">
                     {!preview ? (
-                      <div className="space-y-3 text-center">
-                        <div className="mx-auto h-16 w-16 text-gray-400 group-hover:text-green-500 transition-colors">
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="space-y-3 text-center"
+                      >
+                        <div className="mx-auto h-16 w-16 text-gray-400 group-hover:text-emerald-500 transition-colors">
                           <Upload size={64} className="mx-auto" />
                         </div>
                         <div className="flex justify-center text-sm text-gray-600">
-                          <label className="relative cursor-pointer rounded-md font-medium text-green-600 hover:text-green-500">
+                          <label className="relative cursor-pointer rounded-md font-medium text-emerald-600 hover:text-emerald-500">
                             <span>Click to upload</span>
                             <input 
                               id="waste-image" 
@@ -305,9 +333,13 @@ export default function ReportPage() {
                           <p className="pl-1">or drag and drop</p>
                         </div>
                         <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
-                      </div>
+                      </motion.div>
                     ) : (
-                      <div className="relative w-full h-64 flex items-center justify-center">
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="relative w-full h-64 flex items-center justify-center"
+                      >
                         <img 
                           src={preview} 
                           alt="Waste preview" 
@@ -326,7 +358,7 @@ export default function ReportPage() {
                         >
                           <Trash2 className="h-4 w-4 text-red-500" />
                         </button>
-                      </div>
+                      </motion.div>
                     )}
                   </div>
                 </div>
@@ -353,11 +385,15 @@ export default function ReportPage() {
 
                 {/* Verification Result */}
                 {verificationStatus === 'success' && verificationResult && (
-                  <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-lg animate-fade-in">
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="bg-emerald-50 border-l-4 border-emerald-500 p-4 mb-6 rounded-r-lg"
+                  >
                     <div className="flex items-start">
-                      <CheckCircle className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-6 w-6 text-emerald-500 mr-3 mt-0.5 flex-shrink-0" />
                       <div>
-                        <h3 className="text-lg font-semibold text-green-800">Analysis Complete</h3>
+                        <h3 className="text-lg font-semibold text-emerald-800">Analysis Complete</h3>
                         <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
                           <div className="bg-white p-2 rounded-lg">
                             <p className="text-gray-500 font-medium">Type</p>
@@ -371,7 +407,7 @@ export default function ReportPage() {
                             <p className="text-gray-500 font-medium">Confidence</p>
                             <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
                               <div 
-                                className={`h-2.5 rounded-full ${verificationResult.confidence > 0.7 ? 'bg-green-500' : verificationResult.confidence > 0.4 ? 'bg-yellow-500' : 'bg-red-500'}`} 
+                                className={`h-2.5 rounded-full ${verificationResult.confidence > 0.7 ? 'bg-emerald-500' : verificationResult.confidence > 0.4 ? 'bg-amber-500' : 'bg-red-500'}`} 
                                 style={{ width: `${verificationResult.confidence * 100}%` }}
                               ></div>
                             </div>
@@ -382,7 +418,7 @@ export default function ReportPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 {/* Location Search and Map */}
@@ -397,7 +433,7 @@ export default function ReportPage() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search for a location..."
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                       />
                       <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
@@ -451,10 +487,10 @@ export default function ReportPage() {
                               const position = marker.getLatLng()
                               marker.setOpacity(1)
                               setMapCenter([position.lat, position.lng])
-                              setNewReport({
-                                ...newReport,
+                              setNewReport(prev => ({
+                                ...prev,
                                 location: `${position.lat.toFixed(4)}, ${position.lng.toFixed(4)}`
-                              })
+                              }))
                             }
                           }}
                         >
@@ -463,13 +499,13 @@ export default function ReportPage() {
                       </MapContainer>
                     )}
                   </div>
-                  <input
-                    type="hidden"
-                    name="location"
-                    value={newReport.location}
-                    onChange={handleInputChange}
-                    required
-                  />
+                  <div className="mt-2 text-sm text-gray-600">
+                    {newReport.location ? (
+                      <p>Selected location: <span className="font-medium">{newReport.location}</span></p>
+                    ) : (
+                      <p className="text-amber-600">Please select a location by dragging the marker</p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Waste Type and Amount */}
@@ -485,7 +521,7 @@ export default function ReportPage() {
                       value={newReport.type}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all bg-gray-50"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all bg-gray-50"
                       placeholder="Auto-detected from image"
                       readOnly
                     />
@@ -502,7 +538,7 @@ export default function ReportPage() {
                       value={newReport.amount}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all bg-gray-50"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all bg-gray-50"
                       placeholder="Auto-detected from image"
                       readOnly
                     />
@@ -512,8 +548,8 @@ export default function ReportPage() {
                 {/* Submit Button */}
                 <Button 
                   type="submit" 
-                  className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white py-4 text-lg rounded-xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                  disabled={isSubmitting || verificationStatus !== 'success'}
+                  className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white py-4 text-lg rounded-xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                  disabled={isSubmitting || verificationStatus !== 'success' || !newReport.location}
                 >
                   {isSubmitting ? (
                     <>
@@ -528,13 +564,18 @@ export default function ReportPage() {
                   )}
                 </Button>
               </form>
-            </div>
+            </motion.div>
           </div>
 
           {/* Recent Reports Card */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 h-full">
-              <div className="bg-blue-600 p-4 text-white">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 h-full"
+            >
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white">
                 <h2 className="text-xl font-semibold">Recent Reports</h2>
               </div>
               
@@ -542,15 +583,21 @@ export default function ReportPage() {
                 {reports.length > 0 ? (
                   <div className="space-y-4">
                     {reports.map((report) => (
-                      <div key={report.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors border border-gray-200">
+                      <motion.div 
+                        key={report.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors border border-gray-200"
+                      >
                         <div className="flex items-start">
-                          <div className="bg-green-100 p-2 rounded-lg mr-3">
-                            <MapPin className="h-5 w-5 text-green-600" />
+                          <div className="bg-emerald-100 p-2 rounded-lg mr-3">
+                            <MapPin className="h-5 w-5 text-emerald-600" />
                           </div>
                           <div className="flex-1">
                             <h3 className="font-medium text-gray-800 line-clamp-1">{report.location}</h3>
                             <div className="flex justify-between mt-1 text-sm">
-                              <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded-full capitalize">
+                              <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full capitalize">
                                 {report.wasteType}
                               </span>
                               <span className="text-gray-500">{report.amount}</span>
@@ -558,11 +605,15 @@ export default function ReportPage() {
                             <p className="text-xs text-gray-500 mt-2">{report.createdAt}</p>
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center h-64 text-center p-6">
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex flex-col items-center justify-center h-64 text-center p-6"
+                  >
                     <div className="bg-blue-100 p-4 rounded-full mb-4">
                       <MapPin className="h-8 w-8 text-blue-600" />
                     </div>
@@ -570,31 +621,13 @@ export default function ReportPage() {
                     <p className="text-gray-500 text-sm">
                       Submit your first waste report to see it appear here
                     </p>
-                  </div>
+                  </motion.div>
                 )}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
-
-      {/* Add these styles for animations */}
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-        .leaflet-container {
-          background-color: #f8fafc;
-        }
-        .leaflet-marker-icon {
-          filter: hue-rotate(120deg);
-          transition: opacity 0.2s ease;
-        }
-      `}</style>
     </div>
   )
 }
